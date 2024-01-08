@@ -2,16 +2,43 @@
 <html>
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="POST" action="/register">
-        <input type="text" name="name" placeholder="Name" required><br>
-        <input type="text" name="surname" placeholder="Surname" required><br>
-        <input type="email" name="email" placeholder="Email" required><br>
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="submit" value="Register">
-    </form>
+
+    <div class="navbar"> 
+        <div class="avisLogo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">        
+        </div>
+    </div>
+    <div class="registercontainer">
+        <form class="registerform" method="POST" action="/register">
+            <div class="input-container">
+                <input type="text" name="name" placeholder="Name" required><br>
+                <input type="text" name="surname" placeholder="Surname" required><br>
+                <input type="email" name="email" placeholder="Email" required><br>
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <select name="country" required>
+                    <option value="Turkey">Türkiye</option>
+                </select><br>
+                <select name="city" required>
+                    <option value="">Şehir Seçin</option>
+                    <option value="Istanbul">İstanbul</option>
+                    <option value="Ankara">Ankara</option>
+                    <option value="Izmir">İzmir</option>
+                </select><br>
+                <button type="submit">Register</button>
+            </div>
+        </form>
+        <div class="registerbanner">
+            <p> DO YOU HAVE ALREADY AN ACCOUNT ?</p>
+            <form method="GET" action="/login">
+            <input type="submit" id="loginbtn" value="login">
+        </div>
+    </div>
+   
+
 </body>
 </html>

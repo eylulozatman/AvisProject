@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <div class="navbar"> 
+        <div class="avisLogo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">        
+        </div>
+    </div>
+    <div class="infoBar">
+        <div class="officeInfo">
+            <span>Pick Up Office: {{ ao_name }} </span>
+            <span>Drop Off Office: {{ to_name }} </span>
+        </div>
+    </div>
+    <div class="car-details">
+        {% for car in cars %}
+            <div class="carBox">
+                <div class="car-brand">{{ car.brand }}</div>
+               
+                <div class="car-info">
+                    <p>Transmission: {{ car.transmission }}</p>
+                    <p>Deposit: {{ car.deposit }} TL deposit </p>
+                    <p>Mileage: {{ car.mileage }} KM</p>
+                    <p>Age: {{ car.age }} years and over</p>
+                  
+                </div>
+                
+                <div class="car-img">
+                    <div class="slideshow-container">
+                        <img class="slide" src="{{ car.images[0] }}" alt="Car Image">
+                        <button class="prev" onclick="changeSlide(carData)">prev</button>
+                        <button class="next" onclick="changeSlide(carData)">next</button>
+                    </div>
+                </div>
+                
+                <div class="payment">
+                    {% set total_cost = total_days * car.cost %}
+                    <p><span style="color: red;">{{ total_cost }}</span> / {{ car.cost }} daily</p>
+                    <div class="hemenode">PAY NOW</div>
+                </div>
+              
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

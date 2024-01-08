@@ -1,0 +1,378 @@
+body {
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   background-color: #f0f0f0; /* Gri arkaplan rengi */
+   overflow-x: hidden;
+}
+.navbar {
+   background: #dc2f2f; 
+   padding: 15px;
+   text-align: center;
+}
+.avisLogo img {
+   max-width: 100px;
+   height: auto;
+}
+.registercontainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 20px;
+   margin-top: 20px;
+}
+.registerform {
+   background-color: #ffffff; /* Beyaz form arkaplan rengi */
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   width: 80%;
+   max-width: 400px;
+   margin-bottom: 20px;
+}
+.registerform input[type="text"],
+.registerform input[type="email"],
+.registerform input[type="password"],select {
+   width: calc(100% - 20px);
+   margin-bottom: 15px;
+   padding: 10px;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   outline: none;
+}
+.registerform button {
+   width: 100%;
+   padding: 10px;
+   border: none;
+   border-radius: 5px;
+   background: #dc2f2f;  
+     color: white;
+   font-weight: bold;
+   cursor: pointer;
+}
+.registerbanner {
+   background-color: #ffffff; /* Beyaz banner arkaplan rengi */
+   padding: 15px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   width: 80%;
+   max-width: 400px;
+   text-align: center;
+}
+#loginbtn {
+   background-color: #999; /* Gri login buton rengi */
+   border: none;
+   color: white;
+   padding: 10px 20px;
+   text-align: center;
+   text-decoration: none;
+   display: inline-block;
+   font-size: 16px;
+   margin-top: 10px;
+   cursor: pointer;
+   border-radius: 5px;
+}
+@media only screen and (max-width: 600px) {
+   .registerform, .registerbanner {
+       width: 90%;
+   }
+}
+
+.login-container {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 20px;
+   margin-top: 20px;
+}
+.login-form {
+   background-color: #ffffff; /* Beyaz form arkaplan rengi */
+   padding: 20px;
+   border-radius: 8px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   width: 80%;
+   max-width: 400px;
+}
+.login-form input[type="text"],
+.login-form input[type="password"] {
+   width: calc(100% - 20px);
+   margin-bottom: 15px;
+   padding: 10px;
+   border-radius: 5px;
+   border: 1px solid #ccc;
+   outline: none;
+}
+.login-form input[type="submit"] {
+   width: 100%;
+   padding: 10px;
+   border: none;
+   border-radius: 5px;
+   background: #dc2f2f; 
+    color: white;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+/*  homepage */
+.homebody {
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+   background-image: url('/static/img/bgimg.jpg');
+   background-size: cover;
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+}
+
+.nav-list {
+   list-style: none; /* Noktalama işaretlerini gizle */
+   margin: 0;
+   padding: 0;
+   display: flex; /* Öğeleri yatay düzende göster */
+   margin-right: 40px;
+}
+
+.nav-list li {
+   margin-right: 20px; /* Liste öğeleri arasındaki boşluk */
+}
+
+.nav-list li:last-child {
+   margin-right: 0; /* Son öğe için boşluk yok */
+}
+
+.nav-list li a {
+   text-decoration: none; /* Link altı çizgisini kaldır */
+   color: rgb(215, 196, 196); /* Metin rengi */
+   transition: color 0.3s ease; /* Geçiş efekti */
+}
+
+.nav-list li a:hover {
+   color: #292525; /* Üzerine gelindiğinde metin rengi */
+}
+
+.slogan {
+   text-align: center;
+   color: white;
+   font-size: 25px;
+}
+
+
+/* Genel form stillendirmeleri */
+.rentform {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   padding: 3vh;
+   margin-top: 2vh;
+   color: white;
+   width: 90%; /* Yüzdelik değerle genişlik tanımlaması */
+   max-width: 800px; /* Maksimum genişlik */
+   margin-left: auto;
+   margin-right: auto;
+   box-sizing: border-box; /* padding dahil genişlik hesaplaması */
+}
+
+/* Alış ve teslim kutularının stillendirmeleri */
+.alisbox, .teslimbox {
+   display: flex;
+   flex-direction: row;
+   padding: 2vh;
+   margin: 2vh;
+   align-items: center;
+   justify-content: center;
+   background-color: #999;
+   padding: 3vh;
+   margin-bottom: 2vh;
+   width: 100%; /* Yüzdelik değerle genişlik tanımlaması */
+   box-sizing: border-box; /* padding dahil genişlik hesaplaması */
+}
+
+
+#findlocation{
+   width: 40px; /* Buton genişliği */
+   height: 40px; /* Buton yüksekliği */
+   border-radius: 50%; /* Yuvarlak şekil için */
+   background-color: red; /* Kırmızı arka plan rengi */
+   color: white; /* Yazı rengi */
+   border: none; /* Kenarlık yok */
+   outline: none; /* Vurgu yok */
+   cursor: pointer; 
+   
+}
+/* Label stillendirmeleri */
+.label {
+   width: min-content;
+   margin: 2vh;
+   padding: 2vh;
+   background-color: rgb(21, 19, 19);
+   color: white;
+   font-size: 12px;
+}
+
+/* Dropdown stillendirmeleri */
+.cityDropdown, .officeDropdown {
+   margin: 1vh;
+   padding: 5px;
+   border-radius: 5px;
+}
+
+/* Buton stillendirmeleri */
+#carSearch {
+   padding: 10px 20px;
+   border: none;
+   border-radius: 5px;
+   background: #dc2f2f;
+   color: white;
+   font-weight: bold;
+   cursor: pointer;
+}
+
+/* Medya sorguları ile responsive düzenleme */
+@media screen and (max-width: 768px) {
+   .rentform {
+       padding: 2vh;
+   }
+   .label {
+       font-size: 10px;
+   }
+   /* Diğer stillendirmeler buraya gelebilir */
+}
+
+ 
+/* Style DETAILS */
+
+
+
+.infoBar {
+   background-color: #494545; /* Gri arkaplan rengi */
+   width: 100%; /* Ekran genişliğini kapla */
+   padding: 10px; /* Boşluklar */
+}
+
+/* officeInfo stillemesi */
+.officeInfo {
+   display: flex;
+   padding: 2px;
+   color: #999;
+   margin-left: 3px;
+}
+
+.officeInfo span{
+
+   margin-left: 10px;
+}
+
+/* officeName stillemesi */
+.officeName {
+   font-weight: bold; /* Kalın yazı */
+   color: red; /* Kırmızı renk */
+}
+
+
+.car-details {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 20px;
+   padding: 20px;
+   justify-content: center;
+}
+
+.carBox {
+   width: calc(33.33% - 20px);
+   margin-bottom: 20px;
+   border: 1px solid #ccc;
+   display: flex;
+   flex-direction: column;
+   background-color: #fff;
+}
+
+.car-brand {
+   max-width: max-content;
+   max-height: max-content;
+   margin: 10px;
+   border: 1px solid #5c1d1d;
+   border-radius: 20px;
+   padding: 10px;
+   font-weight: bold;
+   color: #5c1d1d;
+   margin-bottom: 10px;
+}
+
+.car-info {
+   height: 160px;
+   padding: 10px;
+   margin-left: auto;
+   color: #251e1e;
+   font-family: Arial, sans-serif; /* Örnek font stilini burada değiştirebilirsiniz */
+   border-bottom: 1px solid #ccc; /* Alt kenarlık (border-bottom) */
+}
+
+.car-info p{
+   font-family: Arial, sans-serif; /* Örnek font stilini burada değiştirebilirsiniz */
+   border-bottom: 1px solid #ccc; /* Alt kenarlık (border-bottom) */
+}
+
+.car-img {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 200px;
+   overflow: hidden;
+   background-color: #ccc;
+}
+
+.slideshow-container {
+   position: relative;
+   width: 100%;
+   height: 100%;
+}
+
+.slide {
+   width: 100%;
+   height: 100%;
+   object-fit: contain;
+}
+
+.prev,
+.next {
+   position: absolute;
+   top: 50%;
+   transform: translateY(-50%);
+   color: #333;
+   padding: 10px;
+   border: none;
+   cursor: pointer;
+   background-color: #999;
+   transition: background-color 0.3s ease;
+}
+
+.prev:hover,
+.next:hover {
+   background-color: #333;
+}
+
+.payment {
+   
+   padding: 10px;
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   background-color: #f2f2f2;
+   color: #333;
+}
+
+.hemenode {
+   background-color: #dc2f2f;
+   max-height: max-content;
+   color: #fff;
+   padding: 10px;
+   border-radius: 5px;
+   cursor: pointer;
+}
+
+
+
+

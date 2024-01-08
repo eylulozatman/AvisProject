@@ -9,32 +9,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-
-def add_location():
- with app.app_context():
-    db.session.add(Location(cityname='İstanbul'))
-    db.session.add(Location(cityname='İzmir'))
-    db.session.add(Location(cityname='Ankara'))
-    db.session.commit()
-
-def add_office():
- with app.app_context():
-    db.session.add(Office(city_id=1, officename='İstanbul Airport'))
-    db.session.add(Office(city_id=1, officename='Sabiha Gökçen Airport'))
-    db.session.add(Office(city_id=1, officename='Taksim Office'))
-    db.session.add(Office(city_id=1, officename='İstinye Office'))
-
-    db.session.add(Office(city_id=2, officename='Alsancak Office'))
-    db.session.add(Office(city_id=2, officename='Bornova Office'))
-    db.session.add(Office(city_id=2, officename='Adnan Menderes Airport'))
-
-    db.session.add(Office(city_id=3, officename='Yenimahalle Office'))
-    db.session.add(Office(city_id=3, officename='Esenboğa Airport'))
-    db.session.add(Office(city_id=3, officename='Atlantis Mall'))
-
-    db.session.commit()
-
-
 def delete_location_data():
   with app.app_context():
     db.session.query(Location).delete()
@@ -44,6 +18,7 @@ def delete_office_data():
  with app.app_context():
     db.session.query(Office).delete()
     db.session.commit() 
+
 
 @app.route('/addCar', methods=['POST'])
 def addCar():
@@ -65,6 +40,120 @@ def addCar():
     else:
         return 'No data provided'
 
+@app.route('/updateCar/<int:car_id>', methods=['PUT'])
+def updateCar(car_id):
+    if request.method == 'PUT':
+        data = request.json
+        car = Car.query.filter_by(id=car_id).first()
+        if car:
+            car.transmission = data.get('transmission', car.transmission)
+            car.deposit = data.get('deposit', car.deposit)
+            car.mileage = data.get('mileage', car.mileage)
+            car.age = data.get('age', car.age)
+            car.cost = data.get('cost', car.cost)
+            car.img = data.get('img', car.img)
+            car.office_id = data.get('office_id', car.office_id)
+
+            db.session.commit()
+            return 'Car updated successfully'
+        else:
+            return 'Car not found'
+    else:
+        return 'Invalid request method'
+
+@app.route('/')
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        surname = request.form['surname']
+        email = request.form['email']
+        username = request.form['username']
+        password = request.form['password']
+
+        new_user = User(
+            name=name,
+            surname=surname,
+            email=email,
+            username=username,
+            password=password
+        )
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash('You are registered and can now log in', 'success')
+        return redirect(url_for('login'))
+
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(username=username, password=password).first()
+
+        if user:
+            flash('Login successful', 'success')
+            return redirect(url_for('home', username=username))
+        else:
+            flash('Invalid username or password', 'error')
+
+    return render_template('login.html')
+
+@app.route('/get-city', methods=['POST'])
+def get_city():
+    data = request.get_json()
+    latitude = data.get('latitude')
+    longitude = data.get('longitude')
+
+    city = "New York"
+
+    return jsonify({'city': city})
+
+@app.route('/home')
+@app.route('/home/<username>')
+def home(username=None):
+    locations = Location.query.all()
+    if username:
+     return render_template('homepage.html', locations=locations, username=username)
+    
+    else:
+     return render_template('homepage.html')
+
+
+@app.route('/getOfficesByCity', methods=['POST'])
+def get_offices_by_city():
+    city_id = request.json['city_id']
+    offices = Office.query.filter_by(city_id=city_id).all()
+    return jsonify([{'id': office.id, 'officename': office.officename} for office in offices])
+
+
+
+@app.route('/getCarsByInfo', methods=['GET'])
+def get_cars_by_info():
+    office_id = request.args.get('office_id')
+    dropoff_id = request.args.get('dropoff_id')
+    total_days = int(request.args.get('total_days')) 
+
+    cars = Car.query.filter_by(office_id=office_id).all()
+    
+    ao = Office.query.filter_by(id=office_id).first()
+    ao_name = ao.officename if ao else None
+    to = Office.query.filter_by(id=dropoff_id).first()
+    to_name = to.officename if to else None
+
+    for car in cars:
+        car.images = car.img.split(',')
+
+    return render_template('carDetails.html', cars=cars, total_days=total_days, ao_name=ao_name, to_name=to_name)
+
+if __name__ == '__main__':
+
+    app.run(debug=True)
+
+'''
 @app.route('/getCarsByOfficeId/<int:office_id>', methods=['GET'])
 def getCarsByOfficeId(office_id):
     cars = Car.query.filter_by(office_id=office_id).all()
@@ -88,51 +177,4 @@ def getCarsByOfficeId(office_id):
         return jsonify({'cars': car_list})
     else:
         return 'No cars found for the given office ID'
-
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        name = request.form['name']
-        surname = request.form['surname']
-        email = request.form['email']
-        username = request.form['username']
-        password = request.form['password']
-
-        new_user = User(
-            name=name,
-            surname=surname,
-            email=email,
-            username=username,
-            password=password
-        )
-        db.session.add(new_user)
-        db.session.commit()
-
-        flash('You are registered and can now log in', 'success')
-        return redirect(url_for('login'))
-    return render_template('register.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = User.query.filter_by(username=username, password=password).first()
-
-        if user:
-            flash('Login successful', 'success')
-            return redirect(url_for('home'))
-        else:
-            flash('Invalid username or password', 'error')
-
-    return render_template('login.html')
-
-@app.route('/')
-@app.route('/home')
-def home():
-    return render_template('homepage.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
+'''

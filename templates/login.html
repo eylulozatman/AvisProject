@@ -2,13 +2,21 @@
 <html>
 <head>
     <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="POST" action="/login">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="navbar"> 
+        <div class="avisLogo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">        
+        </div>
+    </div>
+    <div class="login-container">
+        <form class="login-form" method="POST" action="/login">
+            <input type="text" name="username" placeholder="Username" required><br>
+            <input type="password" name="password" placeholder="Password" required><br>
+            <input type="submit" value="Login">
+        </form>
+    </div>
 </body>
 </html>

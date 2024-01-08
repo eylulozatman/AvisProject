@@ -1,10 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home Page</title>
+    <title>HOME PAGE</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
 </head>
-<body>
-    <h2>Welcome to the Home Page</h2>
-    <p>You are logged in!</p>
+<body class="homebody">
+
+    <div class="navbar" id="navbarhome"> 
+        <div class="avisLogo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">        
+        </div>
+       
+            <div class="nav-list">
+                <li><a href="#">Rezervasyon Yönetimi</a></li>
+                <li><a href="#">Araçlar</a></li>
+                <li><a href="#">Kampanyalar</a></li>
+                <li><a href="#">Ofisler</a></li>
+                <li><a href="#">Hizmetler</a></li>
+                <li><a href="#">Ürünler & Güvenceler</a></li>
+                <li><a href="#">Filo Kiralama</a></li>
+            </div>
+     
+        
+    </div>
+   
+    <div class="rentform">
+        <p class="slogan">Ayrıcalıklı Araç Kiralama Deneyimi İçin Yola Avis'le Devam Edin!</p>
+        <div class="alisbox">
+            
+            <div class="label">Pick Up Office</div>
+            <button type="button" id="findlocation" onclick="CitybyGoogleMaps()">&#9872;</button>
+            <select class="cityDropdown" id="cdalis"  onchange="getOfficesByCity(this.value, 'odalis')">
+                <option value="" selected disabled>Select City..</option>
+                {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.cityname }}</option>
+                {% endfor %}
+            </select>
+            <select class="officeDropdown" id="odalis" disabled>
+                <option value="" selected disabled>Select Office..</option>
+            </select>
+
+            <div class="datealis">
+              
+                <input type="date" id="pickupDate">
+                <input type="time">
+            </div>
+        </div>
+        <div class="teslimbox">
+    
+            <div class="label" >Drop Off Office</div>
+            <button type="button" id="findlocation" onclick="CitybyGoogleMaps()">&#9872;</button>
+            <select class="cityDropdown" id="cdteslim"  onchange="getOfficesByCity(this.value, 'odteslim')">
+                <option value="" selected disabled>Select City..</option>
+                {% for location in locations %}
+                    <option value="{{ location.id }}">{{ location.cityname }}</option>
+                {% endfor %}
+            </select>
+            
+            <select class="officeDropdown" id="odteslim" disabled>
+                <option value="" selected disabled>Select Office..</option>
+            </select>
+
+            <div class="dateteslim">
+                
+                <input type="date" id="dropoffDate">
+                <input type="time">
+            </div>
+        </div>
+
+        <button type="button" id="carSearch" onclick="getCars()">Search</button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setDefaultDates();
+        });
+    </script>
 </body>
 </html>
