@@ -18,7 +18,6 @@ function getCars() {
 }
 
 
-
 function calculateDifference() {
     const pickupInput = document.getElementById('pickupDate');
     const dropoffInput = document.getElementById('dropoffDate');
@@ -93,7 +92,19 @@ function getOfficesByCity(selectedCity, targetDropdownId) {
     });
 }
 
+async function AutoCity() {
+    // Kullanıcının şehrini al
+    var userCity = "{{ user_city }}";
 
+    // Şehir dropdown'ını seçilen kullanıcının şehriyle güncelle
+    var cityDropdown = document.getElementById('cdalis');
+    for (var i = 0; i < cityDropdown.options.length; i++) {
+        if (cityDropdown.options[i].text === userCity) {
+            cityDropdown.selectedIndex = i;
+            break;
+        }
+    }
+}
 
 function changeSlide(car, direction) {
     var carImages = car.images;
@@ -114,34 +125,3 @@ function changeSlide(car, direction) {
     document.querySelector('.car-img .slide').setAttribute('src', carImages[currentIndex]);
 }
 
-function getCurrentCity() {
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            // Burada elde ettiğiniz latitude ve longitude bilgilerini kullanarak
-            // Google Maps Geocoding API'lerini veya başka bir servisi kullanarak
-            // bu koordinatlara karşılık gelen şehri alabilirsiniz
-            // Örneğin, bir POST isteği ile bu bilgileri Flask endpoint'ine gönderebilirsiniz
-            fetch('/get-city', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({latitude: latitude, longitude: longitude})
-            })
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                console.log('Şehir:', data.city);
-            })
-            .catch(error => {
-                console.error('Şehir alınamadı:', error);
-            });
-        });
-    } else {
-        console.log("Tarayıcı konum bilgisini desteklemiyor.");
-    }
-}

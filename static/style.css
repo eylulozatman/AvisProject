@@ -217,6 +217,7 @@ body {
    margin: 1vh;
    padding: 5px;
    border-radius: 5px;
+   width: 13vw;
 }
 
 /* Buton stillendirmeleri */
@@ -238,6 +239,12 @@ body {
    .label {
        font-size: 10px;
    }
+
+   .alisbox,.teslimbox{
+      width: 100%;
+
+   }
+   
    /* Diğer stillendirmeler buraya gelebilir */
 }
 
@@ -373,6 +380,13 @@ body {
    cursor: pointer;
 }
 
+#map {
+   margin-top: 10px;
+   height: 400px; /* Harita yüksekliği */
+   width: 80%;   /* Harita genişliği */
+   border: 1px solid #ccc; /* Harita kenarlık rengi ve kalınlığı */
+   margin-bottom: 20px;   /* Haritanın altındaki boşluk */
+}
 
 
 

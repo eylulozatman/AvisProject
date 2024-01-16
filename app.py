@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from models import db, Location, Office, User,Car
+from sqlalchemy import text
+
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -19,6 +22,13 @@ def delete_office_data():
     db.session.query(Office).delete()
     db.session.commit() 
 
+def drop_user_table():
+    with app.app_context():
+        # This command drops the 'users' table
+        db.session.execute(text('DROP TABLE IF EXISTS "users";'))
+
+        # Commit the changes
+        db.session.commit()
 
 @app.route('/addCar', methods=['POST'])
 def addCar():
@@ -70,13 +80,14 @@ def register():
         email = request.form['email']
         username = request.form['username']
         password = request.form['password']
-
+        city = request.form['city']
         new_user = User(
             name=name,
             surname=surname,
             email=email,
             username=username,
-            password=password
+            password=password,
+            city=city
         )
         db.session.add(new_user)
         db.session.commit()
@@ -93,14 +104,18 @@ def login():
         password = request.form['password']
 
         user = User.query.filter_by(username=username, password=password).first()
-
+        user_firstname=user.name
+        user_city = user.city
         if user:
             flash('Login successful', 'success')
-            return redirect(url_for('home', username=username))
+            return redirect(url_for('home', user_firstname=user_firstname,user_city=user_city))
         else:
             flash('Invalid username or password', 'error')
 
     return render_template('login.html')
+@app.route('/logout')
+def logout():
+    return redirect(url_for('register'))
 
 @app.route('/get-city', methods=['POST'])
 def get_city():
@@ -113,11 +128,12 @@ def get_city():
     return jsonify({'city': city})
 
 @app.route('/home')
-@app.route('/home/<username>')
-def home(username=None):
+@app.route('/home/<user_firstname>/<user_city>')
+def home(user_firstname=None, user_city=None):
+
     locations = Location.query.all()
-    if username:
-     return render_template('homepage.html', locations=locations, username=username)
+    if user_firstname:
+       return render_template('homepage.html', locations=locations, user_firstname=user_firstname, user_city=user_city)
     
     else:
      return render_template('homepage.html')
@@ -151,7 +167,7 @@ def get_cars_by_info():
 
 if __name__ == '__main__':
 
-    app.run(debug=True)
+    app.run()
 
 '''
 @app.route('/getCarsByOfficeId/<int:office_id>', methods=['GET'])

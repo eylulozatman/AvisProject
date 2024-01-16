@@ -11,7 +11,7 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
-
+    city = db.Column(db.String(100), nullable=False)
 class Location(db.Model):
     __tablename__ = 'location'
 

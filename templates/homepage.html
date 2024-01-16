@@ -22,6 +22,7 @@
                 <li><a href="#">Hizmetler</a></li>
                 <li><a href="#">Ürünler & Güvenceler</a></li>
                 <li><a href="#">Filo Kiralama</a></li>
+                <li><a href="{{ url_for('logout') }}">Log Out</a></li>
             </div>
      
         
@@ -29,10 +30,11 @@
    
     <div class="rentform">
         <p class="slogan">Ayrıcalıklı Araç Kiralama Deneyimi İçin Yola Avis'le Devam Edin!</p>
+        <p> WELCOME {{user_firstname}}</p>
         <div class="alisbox">
             
             <div class="label">Pick Up Office</div>
-            <button type="button" id="findlocation" onclick="CitybyGoogleMaps()">&#9872;</button>
+            <button type="button" id="findlocation1" onclick="AutoCity('cdalis','odalis')">&#9872;</button>
             <select class="cityDropdown" id="cdalis"  onchange="getOfficesByCity(this.value, 'odalis')">
                 <option value="" selected disabled>Select City..</option>
                 {% for location in locations %}
@@ -52,7 +54,7 @@
         <div class="teslimbox">
     
             <div class="label" >Drop Off Office</div>
-            <button type="button" id="findlocation" onclick="CitybyGoogleMaps()">&#9872;</button>
+            <button type="button" id="findlocation2" onclick="AutoCity('cdteslim','odteslim')">&#9872;</button>
             <select class="cityDropdown" id="cdteslim"  onchange="getOfficesByCity(this.value, 'odteslim')">
                 <option value="" selected disabled>Select City..</option>
                 {% for location in locations %}
@@ -72,7 +74,14 @@
         </div>
 
         <button type="button" id="carSearch" onclick="getCars()">Search</button>
+        <div id="map">
+
+
+        </div>
     </div>
+  
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDS6E5yXDT8TWFNO06ZuS31fTMbydRqC1g&callback=initMap" async defer></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -80,6 +89,56 @@
         document.addEventListener('DOMContentLoaded', function() {
             setDefaultDates();
         });
+
+var userCity = "{{ user_city }}";
+
+function initMap() {
+    const map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 39.9334, lng: 32.8597 },  // Default to Turkey's coordinates
+        zoom: 5
+    });
+
+    const avisOffices = [
+                { name: 'İstanbul Ofisi', location: { lat: 41.0082, lng: 28.9784 } },
+                { name: 'Ankara Ofisi', location: { lat: 39.9334, lng: 32.8597 } },
+                { name: 'İzmir Ofisi', location: { lat: 38.4192, lng: 27.1287 } }
+                // ... Diğer ofisler
+            ];
+
+            // Avis ofislerini haritada göster
+            for (const office of avisOffices) {
+                const marker = new google.maps.Marker({
+                    position: office.location,
+                    map: map,
+                    title: office.name
+                });
+            }
+        
+    
+}
+    
+function AutoCity(dropdownId,cityDropdownId) {
+    var userCity = "{{ user_city }}";
+    var dropdown = document.getElementById(dropdownId);
+
+    // Replace occurrences of "I" with "İ" in userCity
+    userCity = userCity.replace(/I/g, 'İ');
+
+    console.log('AutoCity function is executing.');
+    console.log('User City:', userCity);
+
+    for (var i = 0; i < dropdown.options.length; i++) {
+        console.log('Option Text:', dropdown.options[i].text);
+        
+        if (dropdown.options[i].text.trim().toLowerCase() === userCity.trim().toLowerCase()) {
+            dropdown.value = dropdown.options[i].value;
+            getOfficesByCity( dropdown.value ,cityDropdownId)
+            break;
+        }
+    }
+}
+
+
     </script>
 </body>
 </html>
