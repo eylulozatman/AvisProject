@@ -15,4 +15,6 @@ If you press the button with the small flag, your city will be detected and city
 You can also see a map with Avis offices on the homepage.
 
 On the car detail page, cars are listed according to your chosen purchasing office, their features and the total amount you will pay are displayed.
+
+
 ![USER](https://github.com/eylulozatman/AvisProject/assets/74192529/9b92f4ec-e65f-4e0f-abe0-9de128653f54)
