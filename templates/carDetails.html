@@ -18,6 +18,31 @@
             <span>Drop Off Office: {{ to_name }} </span>
         </div>
     </div>
+    <div class="sorting">
+        <form id="sortForm" method="get" action="{{ url_for('getCarsByInfo') }}">
+            <div>
+                <label for="transmission">Transmission:</label>
+                <select name="transmission" id="transmissionSelect">
+                    <option value="all" {% if request.args.get('transmission', 'all') == 'all' %}selected{% endif %}>All</option>
+                    <option value="Automatic" {% if request.args.get('transmission') == 'Automatic' %}selected{% endif %}>Automatic</option>
+                    <option value="Manuel" {% if request.args.get('transmission') == 'Manuel' %}selected{% endif %}>Manual</option>
+                </select>
+            </div>
+            <div>
+                <label for="cost">Cost:</label>
+                <select name="cost" id="costSelect">
+                    <option value="asc" {% if request.args.get('cost', 'asc') == 'asc' %}selected{% endif %}>Ascending</option>
+                    <option value="desc" {% if request.args.get('cost') == 'desc' %}selected{% endif %}>Descending</option>
+                </select>
+            </div>
+            <input type="hidden" name="office_id" id="officeId" value="{{ request.args.get('office_id') }}">
+            <input type="hidden" name="dropoff_id" id="dropoffId" value="{{ request.args.get('dropoff_id') }}">
+            <input type="hidden" name="total_days" id="totalDays" value="{{ request.args.get('total_days') }}">
+            
+        </form>
+    </div>
+    
+
     <div class="car-details">
         {% for car in cars %}
             <div class="carBox">
@@ -28,7 +53,6 @@
                     <p>Deposit: {{ car.deposit }} TL deposit </p>
                     <p>Mileage: {{ car.mileage }} KM</p>
                     <p>Age: {{ car.age }} years and over</p>
-                  
                 </div>
                 
                 <div class="car-img">
@@ -44,9 +68,14 @@
                     <p><span style="color: red;">{{ total_cost }}</span> / {{ car.cost }} daily</p>
                     <div class="hemenode">PAY NOW</div>
                 </div>
-              
             </div>
         {% endfor %}
     </div>
+
+    <script>
+        document.getElementById('sortForm').addEventListener('change', function() {
+            this.submit();
+        });
+    </script>
 </body>
 </html>

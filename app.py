@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from models import db, Location, Office, User,Car
 from sqlalchemy import text
-
+from sqlalchemy_schemadisplay import create_schema_graph
+from sqlalchemy.util import OrderedSet
+from sqlalchemy import create_engine, MetaData
 
 
 app = Flask(__name__)
@@ -11,6 +13,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 db.init_app(app)
+
+
+def generate_database_schema():
+    engine = create_engine('sqlite:///avis2.db')  # Replace with your actual database URI
+    metadata = MetaData(bind=engine)
+
+    graph = create_schema_graph(metadata=metadata)
+    graph.write_png('database_schema.png')
+
 
 def delete_location_data():
   with app.app_context():
@@ -146,25 +157,41 @@ def get_offices_by_city():
     return jsonify([{'id': office.id, 'officename': office.officename} for office in offices])
 
 
-
 @app.route('/getCarsByInfo', methods=['GET'])
-def get_cars_by_info():
+def getCarsByInfo():
     office_id = request.args.get('office_id')
     dropoff_id = request.args.get('dropoff_id')
-    total_days = int(request.args.get('total_days')) 
+    total_days = int(request.args.get('total_days'))
 
+    # Fetch cars based on the selected office_id
     cars = Car.query.filter_by(office_id=office_id).all()
-    
-    ao = Office.query.filter_by(id=office_id).first()
+
+    # Fetch office names
+    ao = Office.query.get(office_id)
     ao_name = ao.officename if ao else None
-    to = Office.query.filter_by(id=dropoff_id).first()
+
+    to = Office.query.get(dropoff_id)
     to_name = to.officename if to else None
 
+    # Split images string into a list
     for car in cars:
         car.images = car.img.split(',')
 
+    # Apply sorting if specified in the form
+    transmission = request.args.get('transmission')
+    cost = request.args.get('cost')
+
+    if transmission and transmission != 'all':
+        cars = [car for car in cars if car.transmission == transmission]
+
+    if cost == 'asc':
+        cars = sorted(cars, key=lambda x: x.cost)
+    elif cost == 'desc':
+        cars = sorted(cars, key=lambda x: x.cost, reverse=True)
+
     return render_template('carDetails.html', cars=cars, total_days=total_days, ao_name=ao_name, to_name=to_name)
 
+    
 if __name__ == '__main__':
 
     app.run()

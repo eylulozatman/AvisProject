@@ -92,19 +92,6 @@ function getOfficesByCity(selectedCity, targetDropdownId) {
     });
 }
 
-async function AutoCity() {
-    // Kullanıcının şehrini al
-    var userCity = "{{ user_city }}";
-
-    // Şehir dropdown'ını seçilen kullanıcının şehriyle güncelle
-    var cityDropdown = document.getElementById('cdalis');
-    for (var i = 0; i < cityDropdown.options.length; i++) {
-        if (cityDropdown.options[i].text === userCity) {
-            cityDropdown.selectedIndex = i;
-            break;
-        }
-    }
-}
 
 function changeSlide(car, direction) {
     var carImages = car.images;

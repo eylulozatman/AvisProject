@@ -389,4 +389,47 @@ body {
 }
 
 
+/* Add this to your existing style.css file or create a new one */
 
+.sorting {
+   margin-top: 10px; /* Adjust as needed */
+}
+
+/* Styling for Transmission select */
+label[for="transmission"], label[for="cost"] {
+   margin-right: 10px; /* Adjust as needed for spacing */
+   font-weight: bold;
+}
+
+select {
+   padding: 5px;
+   border: 1px solid #ccc;
+}
+
+/* Add this to your style.css file or include it in the head of your HTML file */
+
+#transmissionSelect,
+#costSelect {
+    width: 150px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #ffe5e5; /* Light red background color */
+    color: #333;
+    outline: none; /* Remove the default focus outline */
+}
+
+#transmissionSelect option:checked,
+#costSelect option:checked {
+    background-color: #ff9999; /* Lighter red for the selected option */
+}
+
+#sortForm button {
+    padding: 8px;
+    background-color: #4CAF50; /* Green button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
